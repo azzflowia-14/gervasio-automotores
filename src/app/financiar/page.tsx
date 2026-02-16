@@ -10,9 +10,9 @@ export default function FinanciarPage() {
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Header igual que catalogo */}
           <div className="mb-6">
-            <h1 className="text-3xl md:text-4xl font-black tracking-wide text-gray-900 mb-1">Simulador de Financiacion</h1>
+            <h1 className="text-3xl md:text-4xl font-black tracking-wide text-gray-900 mb-1">Simulador +Autos con BNA</h1>
             <p className="text-gray-600 text-sm">
-              Elegi el auto, ingresa tu entrega y calcula las cuotas
+              Elegi el auto, ingresa tu entrega y calcula las cuotas con las tasas de Banco Nacion
             </p>
           </div>
 
@@ -78,7 +78,7 @@ export default function FinanciarPage() {
               </div>
               <div>
                 <h3 className="font-semibold text-gray-900 mb-1">Sin requisitos complicados</h3>
-                <p className="text-gray-600 text-sm">DNI y recibo de sueldo. Asi de simple.</p>
+                <p className="text-gray-600 text-sm">DNI y recibo de sueldo. 100% digital, sin ir al banco.</p>
               </div>
             </div>
 
@@ -89,8 +89,8 @@ export default function FinanciarPage() {
                 </svg>
               </div>
               <div>
-                <h3 className="font-semibold text-gray-900 mb-1">Cuotas fijas en pesos</h3>
-                <p className="text-gray-600 text-sm">Sabes exactamente cuanto pagas cada mes.</p>
+                <h3 className="font-semibold text-gray-900 mb-1">Hasta 72 cuotas fijas</h3>
+                <p className="text-gray-600 text-sm">Sistema frances. Sabes exactamente cuanto pagas cada mes.</p>
               </div>
             </div>
 
@@ -101,8 +101,8 @@ export default function FinanciarPage() {
                 </svg>
               </div>
               <div>
-                <h3 className="font-semibold text-gray-900 mb-1">Aprobacion rapida</h3>
-                <p className="text-gray-600 text-sm">Respuesta en 24-48 horas habiles.</p>
+                <h3 className="font-semibold text-gray-900 mb-1">Hasta $100.000.000</h3>
+                <p className="text-gray-600 text-sm">Financia el 100% del vehiculo con Banco Nacion.</p>
               </div>
             </div>
 
@@ -113,8 +113,8 @@ export default function FinanciarPage() {
                 </svg>
               </div>
               <div>
-                <h3 className="font-semibold text-gray-900 mb-1">Asesoramiento personalizado</h3>
-                <p className="text-gray-600 text-sm">Te ayudamos a elegir el mejor plan para vos.</p>
+                <h3 className="font-semibold text-gray-900 mb-1">Tasa preferencial</h3>
+                <p className="text-gray-600 text-sm">TNA desde 34% para tarjetahabientes BNA.</p>
               </div>
             </div>
           </div>

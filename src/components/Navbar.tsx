@@ -8,7 +8,7 @@ import { LogoText } from '@/components/LogoText'
 
 const navLinks = [
   { href: '/', label: 'Inicio' },
-  { href: '/catalogo', label: 'Catálogo' },
+  { href: '/catalogo', label: 'Catalogo' },
   { href: '/financiar', label: 'Financiar' },
   { href: '/cotizar', label: 'Cotizar mi Auto' },
   { href: '/contacto', label: 'Contacto' },

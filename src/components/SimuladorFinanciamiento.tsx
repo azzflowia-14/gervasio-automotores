@@ -12,60 +12,20 @@ interface Vehiculo {
   imagenes: string
 }
 
-// Coeficientes de cuota por cada $1.000.000 financiado
-// Vehículos 2021-2026 (tasa más baja)
-const COEFICIENTES_NUEVOS: Record<number, number> = {
-  6: 0.211485,
-  8: 0.169161,
-  10: 0.144093,
-  12: 0.127653,
-  14: 0.116137,
-  16: 0.107685,
-  18: 0.101283,
-  20: 0.096307,
-  22: 0.092368,
-  24: 0.089189,
-  26: 0.086602,
-  28: 0.084472,
-  30: 0.082703,
-  32: 0.081219,
-  34: 0.079985,
-  36: 0.078935,
-}
+// BNA Autos - Tasas vigentes desde 05/01/2026
+// Tarjetahabientes BNA: TNA 34% | CFT TEA 49.86%
+// No tarjetahabientes: TNA 38% | CFT TEA 57.02%
+const TNA_TARJETAHABIENTE = 0.34
+const TNA_NO_TARJETAHABIENTE = 0.38
 
-// Vehículos 2020 y anteriores (tasa más alta)
-const COEFICIENTES_USADOS: Record<number, number> = {
-  6: 0.219410,
-  8: 0.177130,
-  10: 0.152205,
-  12: 0.135945,
-  14: 0.124632,
-  16: 0.116391,
-  18: 0.110208,
-  20: 0.105436,
-  22: 0.101700,
-  24: 0.098728,
-  26: 0.096333,
-  28: 0.094387,
-  30: 0.092795,
-  32: 0.091482,
-  34: 0.090400,
-  36: 0.089497,
-}
+// Plazos disponibles BNA Autos (hasta 72 meses)
+const PLAZOS = [12, 18, 24, 36, 48, 60, 72]
 
-const PLAZOS = [6, 8, 10, 12, 14, 16, 18, 20, 22, 24, 26, 28, 30, 32, 34, 36]
-
-function esSinInteres(plazo: number, anioVehiculo: number, entrega: number, precioVehiculo: number): boolean {
-  return plazo === 12 && anioVehiculo >= 2015 && entrega >= precioVehiculo * 0.6
-}
-
-function calcularCuota(monto: number, plazo: number, anioVehiculo: number, entrega: number, precioVehiculo: number): number {
-  if (esSinInteres(plazo, anioVehiculo, entrega, precioVehiculo)) {
-    return Math.round(monto / 12)
-  }
-  const coeficientes = anioVehiculo >= 2021 ? COEFICIENTES_NUEVOS : COEFICIENTES_USADOS
-  const coeficiente = coeficientes[plazo] || 0
-  return Math.round(monto * coeficiente)
+function calcularCuotaFrances(monto: number, plazoMeses: number, tna: number): number {
+  const tasaMensual = tna / 12
+  if (tasaMensual === 0) return Math.round(monto / plazoMeses)
+  const cuota = monto * (tasaMensual * Math.pow(1 + tasaMensual, plazoMeses)) / (Math.pow(1 + tasaMensual, plazoMeses) - 1)
+  return Math.round(cuota)
 }
 
 export function SimuladorFinanciamiento() {
@@ -73,6 +33,7 @@ export function SimuladorFinanciamiento() {
   const [selectedVehiculo, setSelectedVehiculo] = useState<Vehiculo | null>(null)
   const [dineroDisponible, setDineroDisponible] = useState<string>('')
   const [marcaFiltro, setMarcaFiltro] = useState<string>('')
+  const [esTarjetahabiente, setEsTarjetahabiente] = useState(false)
   const [isLoading, setIsLoading] = useState(true)
   const [showModal, setShowModal] = useState(false)
 
@@ -93,7 +54,6 @@ export function SimuladorFinanciamiento() {
     fetchVehiculos()
   }, [])
 
-  // Cerrar modal con Escape
   useEffect(() => {
     const handleEscape = (e: KeyboardEvent) => {
       if (e.key === 'Escape') setShowModal(false)
@@ -108,13 +68,11 @@ export function SimuladorFinanciamiento() {
     }
   }, [showModal])
 
-  // Obtener marcas únicas
   const marcasUnicas = useMemo(() => {
     const marcas = Array.from(new Set(vehiculos.map(v => v.marca)))
     return marcas.sort()
   }, [vehiculos])
 
-  // Filtrar vehículos por marca
   const vehiculosFiltrados = useMemo(() => {
     if (!marcaFiltro) return vehiculos
     return vehiculos.filter(v => v.marca === marcaFiltro)
@@ -122,6 +80,7 @@ export function SimuladorFinanciamiento() {
 
   const dineroNum = parseFloat(dineroDisponible.replace(/[^0-9]/g, '')) || 0
   const diferencia = selectedVehiculo ? Math.max(0, selectedVehiculo.precio - dineroNum) : 0
+  const tna = esTarjetahabiente ? TNA_TARJETAHABIENTE : TNA_NO_TARJETAHABIENTE
 
   const handleDineroChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value.replace(/[^0-9]/g, '')
@@ -156,12 +115,12 @@ export function SimuladorFinanciamiento() {
   return (
     <>
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* Columna izquierda: Selector de vehículos (más grande) */}
+        {/* Columna izquierda: Selector de vehiculos */}
         <div className="lg:col-span-2 bg-white rounded-xl p-4 border border-gray-200 shadow-sm">
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 mb-4">
             <label className="text-sm font-medium text-gray-700">
               <span className="inline-flex items-center justify-center w-5 h-5 rounded-full bg-gervasio-blue text-white text-xs font-bold mr-2">1</span>
-              Elegí el auto que querés
+              Elegi el auto que queres
             </label>
             <select
               value={marcaFiltro}
@@ -183,7 +142,7 @@ export function SimuladorFinanciamiento() {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 max-h-[320px] overflow-y-auto pr-1">
             {vehiculosFiltrados.length === 0 ? (
               <div className="col-span-full text-center py-8 text-gray-500 text-sm">
-                No hay vehículos disponibles
+                No hay vehiculos disponibles
               </div>
             ) : (
               vehiculosFiltrados.map((vehiculo) => (
@@ -221,13 +180,13 @@ export function SimuladorFinanciamiento() {
           </div>
         </div>
 
-        {/* Columna derecha: Cálculos */}
+        {/* Columna derecha: Calculos */}
         <div className="lg:col-span-1 bg-white rounded-xl p-4 border border-gray-200 shadow-sm flex flex-col">
           {/* Input dinero */}
           <div className="mb-4">
             <label className="block text-sm font-medium text-gray-700 mb-2">
               <span className="inline-flex items-center justify-center w-5 h-5 rounded-full bg-gervasio-blue text-white text-xs font-bold mr-2">2</span>
-              ¿Cuánto tenés para entregar?
+              Cuanto tenes para entregar?
             </label>
             <div className="relative">
               <span className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 font-medium">$</span>
@@ -241,11 +200,27 @@ export function SimuladorFinanciamiento() {
             </div>
           </div>
 
+          {/* Selector tarjetahabiente */}
+          <div className="mb-4">
+            <label className="flex items-center gap-2 cursor-pointer">
+              <input
+                type="checkbox"
+                checked={esTarjetahabiente}
+                onChange={(e) => setEsTarjetahabiente(e.target.checked)}
+                className="w-4 h-4 text-gervasio-blue border-gray-300 rounded focus:ring-gervasio-blue"
+              />
+              <span className="text-sm text-gray-700">Tengo tarjeta de credito BNA</span>
+            </label>
+            <p className="text-xs text-gray-400 mt-1 ml-6">
+              TNA {esTarjetahabiente ? '34%' : '38%'} - {esTarjetahabiente ? 'Tarjetahabiente' : 'No tarjetahabiente'}
+            </p>
+          </div>
+
           {/* Resultado */}
           <div className={`bg-gray-50 rounded-xl p-4 mb-4 border border-gray-200 flex-1 ${selectedVehiculo ? 'opacity-100' : 'opacity-50'}`}>
             <div className="space-y-3">
               <div className="flex justify-between items-center text-sm">
-                <span className="text-gray-500">Precio del vehículo</span>
+                <span className="text-gray-500">Precio del vehiculo</span>
                 <span className="text-gray-900 font-medium">
                   {selectedVehiculo ? formatPrice(selectedVehiculo.precio) : '-'}
                 </span>
@@ -265,29 +240,7 @@ export function SimuladorFinanciamiento() {
             </div>
           </div>
 
-          {/* Mensaje 12 cuotas sin interés */}
-          {selectedVehiculo && selectedVehiculo.anio >= 2015 && diferencia > 0 && (
-            <div className={`mb-4 rounded-xl p-3 border text-xs ${
-              dineroNum >= selectedVehiculo.precio * 0.6
-                ? 'bg-green-50 border-green-200 text-green-700'
-                : 'bg-gray-50 border-gray-200 text-gray-500'
-            }`}>
-              {dineroNum >= selectedVehiculo.precio * 0.6 ? (
-                <p className="font-semibold">
-                  Entregando el 60% o más, podés acceder a 12 cuotas sin interés.
-                </p>
-              ) : (
-                <p>
-                  Entregando <span className="text-gray-900 font-semibold">{formatPrice(Math.ceil(selectedVehiculo.precio * 0.6))}</span> (60% del valor), accedés a <span className="text-green-600 font-semibold">12 cuotas sin interés</span>.
-                  {dineroNum > 0 && (
-                    <span> Te faltan <span className="text-gray-900 font-semibold">{formatPrice(Math.ceil(selectedVehiculo.precio * 0.6) - dineroNum)}</span> para llegar.</span>
-                  )}
-                </p>
-              )}
-            </div>
-          )}
-
-          {/* Botón cotizar */}
+          {/* Boton cotizar */}
           <button
             onClick={handleCotizar}
             disabled={!selectedVehiculo || diferencia <= 0}
@@ -298,15 +251,15 @@ export function SimuladorFinanciamiento() {
             }`}
           >
             {!selectedVehiculo
-              ? 'Elegí un vehículo'
+              ? 'Elegi un vehiculo'
               : diferencia <= 0
-              ? '¡Tenés el monto completo!'
-              : 'Calcular financiación'}
+              ? 'Tenes el monto completo!'
+              : 'Calcular financiacion'}
           </button>
 
           {selectedVehiculo && diferencia > 0 && (
             <p className="text-center text-xs text-gray-500 mt-2">
-              Financiación a través de CreditCar
+              Financiacion +Autos con BNA
             </p>
           )}
         </div>
@@ -325,7 +278,7 @@ export function SimuladorFinanciamiento() {
             <div className="bg-dark-900 px-6 py-4 border-b border-dark-700">
               <div className="flex items-center justify-between">
                 <div>
-                  <h3 className="text-xl font-bold text-white">Plan de Cuotas</h3>
+                  <h3 className="text-xl font-bold text-white">Plan de Cuotas - BNA Autos</h3>
                   <p className="text-sm text-gray-400">
                     {selectedVehiculo.marca} {selectedVehiculo.modelo} {selectedVehiculo.anio}
                   </p>
@@ -350,10 +303,7 @@ export function SimuladorFinanciamiento() {
 
               {/* Info de tasa */}
               <p className="text-xs text-gray-500 mt-2">
-                {selectedVehiculo.anio >= 2021
-                  ? 'Tasa preferencial para vehículos 2021-2026'
-                  : 'Tasa estándar para vehículos 2020 y anteriores'
-                }
+                TNA {(tna * 100).toFixed(0)}% - Sistema frances - {esTarjetahabiente ? 'Tarjetahabiente BNA' : 'No tarjetahabiente'}
               </p>
             </div>
 
@@ -361,26 +311,18 @@ export function SimuladorFinanciamiento() {
             <div className="p-4 overflow-y-auto max-h-[50vh]">
               <div className="grid grid-cols-2 gap-3">
                 {PLAZOS.map((plazo) => {
-                  const cuota = calcularCuota(diferencia, plazo, selectedVehiculo.anio, dineroNum, selectedVehiculo.precio)
+                  const cuota = calcularCuotaFrances(diferencia, plazo, tna)
                   const total = cuota * plazo
-                  const sinInteres = esSinInteres(plazo, selectedVehiculo.anio, dineroNum, selectedVehiculo.precio)
                   return (
                     <div
                       key={plazo}
-                      className={`bg-dark-700 border rounded-xl p-4 hover:border-gervasio-blue/50 transition-colors relative ${
-                        sinInteres ? 'border-green-500/50 ring-1 ring-green-500/20' : 'border-dark-600'
-                      }`}
+                      className="bg-dark-700 border border-dark-600 rounded-xl p-4 hover:border-gervasio-blue/50 transition-colors"
                     >
-                      {sinInteres && (
-                        <span className="absolute -top-2.5 left-1/2 -translate-x-1/2 bg-green-500 text-white text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider">
-                          Sin interés
-                        </span>
-                      )}
                       <div className="flex items-baseline justify-between mb-1">
                         <span className="text-2xl font-bold text-white">{plazo}</span>
                         <span className="text-xs text-gray-400">cuotas</span>
                       </div>
-                      <div className={`text-lg font-bold ${sinInteres ? 'text-green-400' : 'text-gervasio-blue'}`}>
+                      <div className="text-lg font-bold text-gervasio-blue">
                         {formatPrice(cuota)}
                       </div>
                       <div className="text-xs text-gray-500 mt-1">
@@ -395,7 +337,7 @@ export function SimuladorFinanciamiento() {
             {/* Footer */}
             <div className="bg-dark-900 px-6 py-4 border-t border-dark-700">
               <p className="text-xs text-gray-500 text-center mb-3">
-                Cuotas fijas en pesos. Sujeto a aprobación crediticia.
+                +Autos con BNA. Cuotas fijas en pesos. Sujeto a aprobacion crediticia. Monto max $100.000.000.
               </p>
               <div className="flex gap-3">
                 <button
@@ -405,7 +347,7 @@ export function SimuladorFinanciamiento() {
                   Cerrar
                 </button>
                 <a
-                  href={`https://wa.me/5493329593046?text=Hola! Quiero consultar por la financiación del ${selectedVehiculo.marca} ${selectedVehiculo.modelo} ${selectedVehiculo.anio}. Monto a financiar: ${formatPrice(diferencia)}`}
+                  href={`https://wa.me/5493407123456?text=Hola! Quiero consultar por la financiacion BNA del ${selectedVehiculo.marca} ${selectedVehiculo.modelo} ${selectedVehiculo.anio}. Monto a financiar: ${formatPrice(diferencia)}`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex-1 py-2.5 rounded-xl font-semibold text-sm bg-green-600 text-white hover:bg-green-700 transition-colors flex items-center justify-center gap-2"
