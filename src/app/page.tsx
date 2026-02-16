@@ -56,45 +56,26 @@ export default async function HomePage() {
   return (
     <div>
       {/* Hero Section */}
-      <section className="relative bg-gradient-to-b from-[#f0f7ff] to-white overflow-hidden">
-        {/* Efecto Spotlight */}
-        <div className="absolute inset-0">
-          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-gradient-radial from-gervasio-blue/10 via-gervasio-blue/5 to-transparent rounded-full blur-3xl"></div>
-        </div>
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-white/50"></div>
-
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 lg:py-8">
+      <section className="bg-[#006fbe] overflow-hidden">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-16">
           <div className="text-center">
             {/* Brand Logo */}
-            <div className="mb-3 flex justify-center">
+            <div className="mb-8 flex justify-center">
               <Image
                 src="/images/logo.png"
                 alt="Automotores Gervasio e Hijos"
-                width={400}
-                height={130}
-                className="h-24 md:h-32 w-auto"
+                width={2000}
+                height={650}
+                className="h-48 md:h-[28rem] w-auto brightness-0 invert"
                 priority
               />
             </div>
 
-            <h1 className="text-3xl md:text-5xl font-bold tracking-wide mb-1 text-gray-900">
-              Concesionaria
-            </h1>
-            <p className="text-lg text-gray-600 mb-4 max-w-2xl mx-auto">
-              Venta de vehículos <span className="text-gervasio-blue font-bold">0KM</span> y <span className="text-gervasio-blue font-bold">usados</span>.
-              Financiación propia, transferencias y el mejor servicio.
-            </p>
-
-            <div className="flex flex-col sm:flex-row gap-3 justify-center">
+            <div className="flex justify-center">
               <Link href="/catalogo">
-                <Button size="lg">
+                <button className="bg-white text-[#006fbe] font-bold text-lg px-8 py-3 rounded-lg hover:bg-gray-100 transition-colors">
                   Ver Catálogo
-                </Button>
-              </Link>
-              <Link href="/financiar">
-                <Button size="lg" variant="outline">
-                  Simular Financiación
-                </Button>
+                </button>
               </Link>
             </div>
           </div>
