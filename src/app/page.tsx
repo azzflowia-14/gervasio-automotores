@@ -31,20 +31,6 @@ async function getVehiculosUsados() {
   })
 }
 
-// Componente separador moderno
-function SectionDivider() {
-  return (
-    <div className="relative h-16 bg-white overflow-hidden">
-      <div className="absolute inset-0 flex items-center justify-center">
-        <div className="w-full max-w-xs flex items-center gap-4">
-          <div className="flex-1 h-px bg-gradient-to-r from-transparent via-gray-300 to-gray-300"></div>
-          <div className="w-2 h-2 rotate-45 bg-gervasio-blue"></div>
-          <div className="flex-1 h-px bg-gradient-to-l from-transparent via-gray-300 to-gray-300"></div>
-        </div>
-      </div>
-    </div>
-  )
-}
 
 export default async function HomePage() {
   const [vehiculosDestacados, vehiculos0KM, vehiculosUsados] = await Promise.all([
@@ -57,7 +43,7 @@ export default async function HomePage() {
     <div>
       {/* Hero Section */}
       <section className="bg-white overflow-hidden">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-16">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-24">
           <div className="text-center">
             {/* Brand Logo */}
             <div className="mb-8 flex justify-center">
@@ -75,7 +61,6 @@ export default async function HomePage() {
         </div>
       </section>
 
-      <SectionDivider />
 
       {/* Vehículos Destacados */}
       {vehiculosDestacados.length > 0 && (
@@ -100,7 +85,6 @@ export default async function HomePage() {
         </section>
       )}
 
-      <SectionDivider />
 
       {/* 0KM Section */}
       {vehiculos0KM.length > 0 && (
@@ -127,7 +111,6 @@ export default async function HomePage() {
         </section>
       )}
 
-      <SectionDivider />
 
       {/* Usados Section */}
       {vehiculosUsados.length > 0 && (
@@ -152,7 +135,6 @@ export default async function HomePage() {
         </section>
       )}
 
-      <SectionDivider />
 
       {/* Servicios */}
       <section className="bg-[#f5f7fa] py-16 border-t border-gray-200">
