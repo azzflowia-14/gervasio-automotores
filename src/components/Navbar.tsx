@@ -19,12 +19,12 @@ export function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
 
   return (
-    <header className="bg-white border-b border-gray-200 sticky top-0 z-50 shadow-sm">
+    <header className="bg-[#006fbe] sticky top-0 z-50 shadow-md">
       <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-20">
           <div className="flex items-center">
             <Link href="/" className="flex items-center">
-              <LogoText />
+              <LogoText variant="white" />
             </Link>
           </div>
 
@@ -35,9 +35,10 @@ export function Navbar() {
                 key={link.href}
                 href={link.href}
                 className={cn(
-                  'text-sm font-semibold uppercase tracking-wide transition-colors hover:text-gervasio-blue',
-                  pathname === link.href ? 'text-gervasio-blue' : 'text-gray-600'
+                  'text-sm uppercase tracking-wide transition-colors hover:text-white',
+                  pathname === link.href ? 'text-white' : 'text-white/70'
                 )}
+                style={{ fontFamily: "'Modern Warfare', sans-serif" }}
               >
                 {link.label}
               </Link>
@@ -48,7 +49,7 @@ export function Navbar() {
           <div className="lg:hidden flex items-center">
             <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className="text-gray-600 hover:text-gervasio-blue focus:outline-none p-2"
+              className="text-white hover:text-white/80 focus:outline-none p-2"
             >
               <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 {isMenuOpen ? (
@@ -63,7 +64,7 @@ export function Navbar() {
 
         {/* Mobile menu */}
         {isMenuOpen && (
-          <div className="lg:hidden py-4 border-t border-gray-200">
+          <div className="lg:hidden py-4 border-t border-white/20">
             <div className="flex flex-col space-y-4">
               {navLinks.map((link) => (
                 <Link
@@ -71,9 +72,10 @@ export function Navbar() {
                   href={link.href}
                   onClick={() => setIsMenuOpen(false)}
                   className={cn(
-                    'text-sm font-semibold uppercase tracking-wide transition-colors hover:text-gervasio-blue',
-                    pathname === link.href ? 'text-gervasio-blue' : 'text-gray-600'
+                    'text-sm uppercase tracking-wide transition-colors hover:text-white',
+                    pathname === link.href ? 'text-white' : 'text-white/70'
                   )}
+                  style={{ fontFamily: "'Modern Warfare', sans-serif" }}
                 >
                   {link.label}
                 </Link>

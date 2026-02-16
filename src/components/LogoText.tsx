@@ -5,7 +5,8 @@ interface LogoTextProps {
 
 export function LogoText({ variant = 'default', className = '' }: LogoTextProps) {
   const isWhite = variant === 'white'
-  // hero uses dark colors (on white bg), white uses light colors (on dark bg)
+  const isHero = variant === 'hero'
+  // navbar on blue bg = light, footer on dark bg = light, hero on white bg = dark
   const light = isWhite
 
   const mainColor = light ? 'text-white' : 'text-gray-900'
@@ -16,11 +17,9 @@ export function LogoText({ variant = 'default', className = '' }: LogoTextProps)
       {/* AUTOMOTORES */}
       <span
         className={`tracking-[0.3em] uppercase ${mainColor} ${
-          variant === 'hero'
-            ? 'text-base md:text-2xl mb-0.5'
-            : isWhite
-            ? 'text-[8px] mb-0'
-            : 'text-[8px] md:text-[10px] mb-0'
+          isHero
+            ? 'text-xs md:text-xl mb-0'
+            : 'text-[7px] md:text-[9px] mb-0'
         }`}
         style={{ fontFamily: "'Modern Warfare', sans-serif" }}
       >
@@ -30,11 +29,9 @@ export function LogoText({ variant = 'default', className = '' }: LogoTextProps)
       {/* GERVASIO */}
       <span
         className={`uppercase block ${mainColor} ${
-          variant === 'hero'
-            ? 'text-7xl md:text-[10rem] leading-[0.8]'
-            : isWhite
-            ? 'text-2xl leading-[0.8]'
-            : 'text-3xl md:text-4xl leading-[0.8]'
+          isHero
+            ? 'text-5xl md:text-8xl leading-[0.85]'
+            : 'text-2xl md:text-3xl leading-[0.85]'
         }`}
         style={{ fontFamily: "'Modern Warfare', sans-serif" }}
       >
@@ -44,11 +41,9 @@ export function LogoText({ variant = 'default', className = '' }: LogoTextProps)
       {/* E HIJOS */}
       <span
         className={`tracking-[0.2em] uppercase self-end ${accentColor} ${
-          variant === 'hero'
-            ? 'text-lg md:text-3xl mt-0'
-            : isWhite
-            ? 'text-[8px] mt-0'
-            : 'text-[9px] md:text-xs mt-0'
+          isHero
+            ? 'text-sm md:text-2xl mt-0'
+            : 'text-[8px] md:text-[10px] mt-0'
         }`}
         style={{ fontFamily: "'Modern Warfare', sans-serif" }}
       >
