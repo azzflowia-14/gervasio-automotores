@@ -1,11 +1,17 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Inter, Michroma } from "next/font/google";
 import "./globals.css";
 import { LayoutWrapper } from "@/components/LayoutWrapper";
 
 const inter = Inter({
   subsets: ["latin"],
   variable: "--font-inter",
+});
+
+const michroma = Michroma({
+  weight: "400",
+  subsets: ["latin"],
+  variable: "--font-michroma",
 });
 
 export const metadata: Metadata = {
@@ -20,7 +26,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="es">
-      <body className={`${inter.variable} font-sans antialiased bg-white text-gray-900`}>
+      <body className={`${inter.variable} ${michroma.variable} font-sans antialiased bg-white text-gray-900`}>
         <LayoutWrapper>
           {children}
         </LayoutWrapper>

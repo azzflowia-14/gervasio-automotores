@@ -1,8 +1,8 @@
 import Link from 'next/link'
-import Image from 'next/image'
 import { prisma } from '@/lib/prisma'
 import { VehiculoCard } from '@/components/VehiculoCard'
 import { Button } from '@/components/ui/Button'
+import { LogoText } from '@/components/LogoText'
 
 // Forzar renderizado dinámico (no estático)
 export const dynamic = 'force-dynamic'
@@ -61,14 +61,7 @@ export default async function HomePage() {
           <div className="text-center">
             {/* Brand Logo */}
             <div className="mb-8 flex justify-center">
-              <Image
-                src="/images/logo.png"
-                alt="Automotores Gervasio e Hijos"
-                width={2000}
-                height={650}
-                className="h-48 md:h-[28rem] w-auto brightness-0 invert"
-                priority
-              />
+              <LogoText variant="hero" />
             </div>
 
             <div className="flex justify-center">

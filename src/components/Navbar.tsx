@@ -1,10 +1,10 @@
 'use client'
 
 import Link from 'next/link'
-import Image from 'next/image'
 import { usePathname } from 'next/navigation'
 import { useState } from 'react'
 import { cn } from '@/lib/utils'
+import { LogoText } from '@/components/LogoText'
 
 const navLinks = [
   { href: '/', label: 'Inicio' },
@@ -24,14 +24,7 @@ export function Navbar() {
         <div className="flex justify-between h-20">
           <div className="flex items-center">
             <Link href="/" className="flex items-center">
-              <Image
-                src="/images/logo.png"
-                alt="Automotores Gervasio e Hijos"
-                width={180}
-                height={60}
-                className="h-14 w-auto"
-                priority
-              />
+              <LogoText />
             </Link>
           </div>
 

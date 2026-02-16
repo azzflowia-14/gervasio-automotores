@@ -1,4 +1,4 @@
-import Image from 'next/image'
+import { LogoText } from '@/components/LogoText'
 
 export function Footer() {
   return (
@@ -8,13 +8,7 @@ export function Footer() {
           {/* Logo y descripción */}
           <div>
             <div className="mb-4">
-              <Image
-                src="/images/logo.png"
-                alt="Automotores Gervasio e Hijos"
-                width={150}
-                height={50}
-                className="h-12 w-auto mx-auto md:mx-0 brightness-0 invert"
-              />
+              <LogoText variant="white" />
             </div>
             <p className="text-gray-400 mb-4 text-sm">
               Venta de vehículos 0km y usados. Financiación propia, transferencias y el mejor servicio de Villa Ramallo.
