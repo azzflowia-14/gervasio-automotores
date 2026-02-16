@@ -4,81 +4,64 @@ interface LogoTextProps {
 }
 
 export function LogoText({ variant = 'default', className = '' }: LogoTextProps) {
-  const isWhite = variant === 'white'
   const isHero = variant === 'hero'
+  const isWhite = variant === 'white'
   const light = isWhite || isHero
 
   const mainColor = light ? 'text-white' : 'text-gray-900'
   const accentColor = light ? 'text-white/90' : 'text-[#006fbe]'
   const lineColor = light ? 'bg-white/80' : 'bg-[#006fbe]'
 
-  // Scale based on variant
-  const scale = isHero ? 'scale-hero' : variant === 'white' ? 'scale-footer' : 'scale-nav'
-
   return (
     <div className={`inline-flex flex-col items-center select-none ${className}`}>
       {/* AUTOMOTORES */}
       <span
-        className={`font-[var(--font-michroma)] font-normal uppercase ${mainColor} ${
-          scale === 'scale-hero'
-            ? 'text-sm md:text-xl tracking-[0.35em]'
-            : scale === 'scale-footer'
-            ? 'text-[7px] tracking-[0.3em]'
-            : 'text-[7px] md:text-[9px] tracking-[0.3em]'
+        className={`tracking-[0.3em] uppercase ${mainColor} ${
+          isHero
+            ? 'text-base md:text-2xl mb-1'
+            : isWhite
+            ? 'text-[8px] mb-0.5'
+            : 'text-[8px] md:text-[10px] mb-0.5'
         }`}
+        style={{ fontFamily: "'Modern Warfare', sans-serif" }}
       >
         AUTOMOTORES
       </span>
 
-      {/* GERVASIO con línea azul y efecto skew */}
+      {/* GERVASIO con línea azul */}
       <div className="relative inline-block">
         <span
-          className={`font-[var(--font-michroma)] font-normal uppercase leading-[0.85] block ${mainColor} ${
-            scale === 'scale-hero'
-              ? 'text-6xl md:text-9xl tracking-tight'
-              : scale === 'scale-footer'
-              ? 'text-xl tracking-tight'
-              : 'text-2xl md:text-3xl tracking-tight'
+          className={`uppercase leading-[0.9] block ${mainColor} ${
+            isHero
+              ? 'text-7xl md:text-[10rem]'
+              : isWhite
+              ? 'text-2xl'
+              : 'text-3xl md:text-4xl'
           }`}
-          style={{
-            transform: 'skewX(-8deg)',
-            fontWeight: 400,
-          }}
+          style={{ fontFamily: "'Modern Warfare', sans-serif" }}
         >
-          GERV
-          {/* A con extensión hacia abajo */}
-          <span className="relative inline-block">
-            A
-            <span
-              className={`absolute bottom-0 left-0 w-[0.15em] ${light ? 'bg-white' : 'bg-gray-900'}`}
-              style={{
-                height: '0.2em',
-                transform: 'translateY(0.15em) skewX(-4deg)',
-              }}
-            ></span>
-          </span>
-          SIO
+          GERVASIO
         </span>
         {/* Línea decorativa azul */}
         <div
           className={`absolute left-0 right-0 ${lineColor}`}
           style={{
-            bottom: '18%',
-            height: scale === 'scale-hero' ? '3px' : '1.5px',
-            transform: 'skewX(-8deg)',
+            bottom: '20%',
+            height: isHero ? '3px' : '1.5px',
           }}
         ></div>
       </div>
 
       {/* E HIJOS */}
       <span
-        className={`font-[var(--font-michroma)] font-normal uppercase self-end ${accentColor} ${
-          scale === 'scale-hero'
-            ? 'text-base md:text-2xl tracking-[0.2em] -mt-1'
-            : scale === 'scale-footer'
-            ? 'text-[7px] tracking-[0.15em]'
-            : 'text-[8px] md:text-[10px] tracking-[0.15em]'
+        className={`tracking-[0.2em] uppercase self-end ${accentColor} ${
+          isHero
+            ? 'text-lg md:text-3xl -mt-1'
+            : isWhite
+            ? 'text-[8px]'
+            : 'text-[9px] md:text-xs'
         }`}
+        style={{ fontFamily: "'Modern Warfare', sans-serif" }}
       >
         E HIJOS
       </span>

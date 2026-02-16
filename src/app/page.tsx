@@ -56,7 +56,7 @@ export default async function HomePage() {
   return (
     <div>
       {/* Hero Section */}
-      <section className="bg-[#006fbe] overflow-hidden">
+      <section className="bg-white overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-16">
           <div className="text-center">
             {/* Brand Logo */}
@@ -66,7 +66,7 @@ export default async function HomePage() {
 
             <div className="flex justify-center">
               <Link href="/catalogo">
-                <button className="bg-white text-[#006fbe] font-bold text-lg px-8 py-3 rounded-lg hover:bg-gray-100 transition-colors">
+                <button className="bg-[#006fbe] text-white font-bold text-lg px-8 py-3 rounded-lg hover:bg-[#005a9e] transition-colors">
                   Ver Catálogo
                 </button>
               </Link>
